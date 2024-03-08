@@ -218,13 +218,13 @@ with col1:
 
 # Create an interactive bar chart using Altair to show the 'unique case count' for each 'SME (On It)'
 chart4 = alt.Chart(df_filtered).mark_bar().encode(
-    x=alt.X('SME (On It)', sort='-y'),  # Sorting based on the count in descending order
-    y=alt.Y('count()', title='Unique Case Count'),
+    y=alt.Y('SME (On It):N', sort='-x'),  # Sorting based on the count in descending order, ensure to specify ':N' for nominal data
+    x=alt.X('count()', title='Unique Case Count'),
     tooltip=['SME (On It)', 'count()']
 ).properties(
     title='Interactions Handled',
     width=600,
-    height=400
+    height=600
 )
 
 # To display the chart in your Streamlit app
