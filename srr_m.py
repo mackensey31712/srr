@@ -87,9 +87,9 @@ else:
 
 # DataFrames for "In Queue" and "In Progress"
 df_inqueue = df[df['Status'] == 'In Queue']
-df_inqueue = df_inqueue[['Case #', 'Requestor','Service','Creation Timestamp', 'Message Link 0']]
+df_inqueue = df_inqueue[['Case #', 'Requestor','Service','Creation Timestamp', 'Message Link']]
 df_inprogress = df[df['Status'] == 'In Progress']
-df_inprogress = df_inprogress[['Case #', 'Requestor','Service','Creation Timestamp', 'SME (On It)', 'TimeTo: On It', 'Message Link 1']]
+df_inprogress = df_inprogress[['Case #', 'Requestor','Service','Creation Timestamp', 'SME (On It)', 'TimeTo: On It', 'Message Link']]
 
 # Display the filtered dataframe
 st.title('Data')
