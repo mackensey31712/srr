@@ -38,7 +38,7 @@ url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTyaNjkYwSc-mA_Bf3CcvP0kc
 df = load_data(url).copy()
 
 st.write(':wave: Welcome:exclamation:')
-st.title(':new: SRR Management View')
+st.title('Five9 SRR Management View')
 
 # Button to refresh the data
 if st.button('Refresh Data'):
@@ -203,7 +203,7 @@ agg_service_long = agg_service.melt(id_vars=['Service'],
                                     var_name='Category',
                                     value_name='Minutes')
 
-# Create a stacked bar chart
+# Create a grouped bar chart
 chart2 = alt.Chart(agg_service_long).mark_bar().encode(
     x='Service',
     y=alt.Y('Minutes', stack='zero'),  # Use stack='zero' for stacking
@@ -227,7 +227,7 @@ chart3 = alt.Chart(df_filtered).mark_bar().encode(
 ).properties(
     title='Interaction Count',
     width=600,
-    height=400
+    height=600
 )
 
 # To display the chart in your Streamlit app
@@ -236,18 +236,98 @@ with col1:
 
 # Create an interactive bar chart using Altair to show the 'unique case count' for each 'SME (On It)'
 chart4 = alt.Chart(df_filtered).mark_bar().encode(
-    x=alt.X('SME (On It)', sort='-y'),  # Sorting based on the count in descending order
-    y=alt.Y('count()', title='Unique Case Count'),
+    y=alt.Y('SME (On It):N', sort='-x'),  # Sorting based on the count in descending order, ensure to specify ':N' for nominal data
+    x=alt.X('count()', title='Unique Case Count'),
     tooltip=['SME (On It)', 'count()']
 ).properties(
     title='Interactions Handled',
     width=600,
-    height=400
+    height=600
 )
 
 # To display the chart in your Streamlit app
 with col5:
     st.write(chart4)
+st.subheader('Interaction Count by Requestor')
+
+
+# Display a Dataframe where the rows are the 'Requestor', the columns would be the 'Service', and the values would be the count of each 'Service'
+# Use pivot_table to reshape your DataFrame
+pivot_df = df_filtered.pivot_table(index='Requestor', columns='Service', aggfunc='size', fill_value=0)
+
+# Display the reshaped DataFrame in Streamlit
+# Set the number of rows to display per page
+# page_size = 10
+
+# # Calculate the total number of pages needed
+# total_pages = len(pivot_df) // page_size + (1 if len(pivot_df) % page_size > 0 else 0)
+
+# # Widget to select the current page, placed at the top
+# with col1:
+#     current_page = st.selectbox('Select a page', range(total_pages))
+
+# # Displaying the portion of DataFrame that corresponds to the current page
+# start_row = current_page * page_size
+# end_row = start_row + page_size
+
+# # Display the DataFrame within the same column, right below the selectbox
+# with col1:
+#     st.dataframe(pivot_df.iloc[start_row:end_row])
+
+# Create a pivot table using pandas
+pivot_df = df_filtered.pivot_table(index='Requestor', columns='Service', aggfunc='size', fill_value=0)
+
+# Display the reshaped dataframe in Streamlit
+page_size = 10
+total_pages = len(pivot_df) // page_size + (1 if len(pivot_df) % page_size > 0 else 0)
+
+
+# Widget to select the current page, placed at the top
+with col1:
+    current_page = st.selectbox('Select a Page', range(total_pages))
+
+# Display the portion of dataframe that corresponds to the current page with custom styling
+start_row = current_page * page_size
+end_row = start_row + page_size
+
+# Custom styling for the dataframe
+styles = [
+    {'selector': 'thead', 'props': 'color: white; background-color: #2a7bbd;'},
+    {'selector': 'tbody tr:nth-child(even)', 'props': 'background-color: #f7f7f7;'},
+    {'selector': 'tbody tr:hover', 'props': 'background-color: #f4f4f8;'}
+]
+
+# Display the styled dataframe within the same column, right below the selectbox
+st.dataframe(pivot_df.iloc[start_row:end_row].style.set_table_styles(styles))
+
+
+# Creating the Summary Table where it sorts the SME (On It) column by first getting the total average TimeTo: On It and average TimeTo: Attended and then sorting it by the number of Interactions
+# and then by the highest average survey.
+
+# Group by 'SME (On It)' and calculate the required metrics including average survey
+df_grouped = df_filtered.groupby('SME (On It)').agg(
+    Avg_On_It_Sec=pd.NamedAgg(column='TimeTo: On It Sec', aggfunc='mean'),
+    Avg_Attended_Sec=pd.NamedAgg(column='TimeTo: Attended Sec', aggfunc='mean'),
+    Number_of_Interactions=pd.NamedAgg(column='SME (On It)', aggfunc='count'),
+    Avg_Survey=pd.NamedAgg(column='Survey', aggfunc='mean')  # Calculate the average survey score
+).reset_index()
+
+df_grouped['Total_Avg_Sec'] = df_grouped['Avg_On_It_Sec'] + df_grouped['Avg_Attended_Sec']
+
+# Sort by Total_Avg_Sec, Number_of_Interactions, and then by Avg_Survey in descending order
+df_sorted = df_grouped.sort_values(by=['Total_Avg_Sec', 'Number_of_Interactions', 'Avg_Survey'], ascending=[True, False, False])
+
+df_sorted['Avg_On_It'] = df_sorted['Avg_On_It_Sec'].apply(seconds_to_hms)
+df_sorted['Avg_Attended'] = df_sorted['Avg_Attended_Sec'].apply(seconds_to_hms)
+
+# Optionally, you can rename columns for better readability
+df_sorted.rename(columns={'SME (On It)': 'SME'}, inplace=True)
+
+# Display "Summary Table"
+st.subheader('SME Summary Table')
+st.dataframe(df_sorted[['SME', 'Avg_On_It', 'Avg_Attended', 'Number_of_Interactions', 'Avg_Survey']].reset_index(drop=True))
+
+
 
 # Auto-update every 5 minutes
 refresh_rate = 120  # 300 seconds = 5 minutes
