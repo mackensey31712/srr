@@ -6,6 +6,7 @@ import altair as alt
 
 st.set_page_config(layout="wide")
 
+# Create functions for computation
 @st.cache_data(ttl=120, show_spinner=True)
 def load_data(url):
     df = pd.read_csv(url)
