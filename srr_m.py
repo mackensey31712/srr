@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import time
 import numpy as np
-import matplotlib.pyplot as plt
 import altair as alt
 
 st.set_page_config(layout="wide")
