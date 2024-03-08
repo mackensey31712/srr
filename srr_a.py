@@ -284,11 +284,10 @@ df_sorted = df_grouped.sort_values(by=['Total_Avg_Sec', 'Number_of_Interactions'
 df_sorted['Avg_On_It'] = df_sorted['Avg_On_It_Sec'].apply(seconds_to_hms)
 df_sorted['Avg_Attended'] = df_sorted['Avg_Attended_Sec'].apply(seconds_to_hms)
 
-# Since we already renamed 'In process (On It SME)' to 'SME (On It)', no need to rename again if consistent.
-# But if you want to display it as just 'SME' in the summary, you can keep this rename line.
+# Rename 'SME (On It)' column to 'SME'
 df_sorted.rename(columns={'SME (On It)': 'SME'}, inplace=True)
 
-st.write("Summary Table")
+st.subheader("SME Summary Table")
 st.dataframe(df_sorted[['SME', 'Avg_On_It', 'Avg_Attended', 'Number_of_Interactions']].set_index('SME'))
 
 
