@@ -148,20 +148,6 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 agg_month['TimeTo: On It Minutes'] = agg_month['TimeTo: On It Sec'] / 60
 agg_month['TimeTo: Attended Minutes'] = agg_month['TimeTo: Attended Sec'] / 60
 
-# # Now plot these columns
-# st.set_option('deprecation.showPyplotGlobalUse', False)
-# fig, ax = plt.subplots()
-# agg_month.plot(x='Month', y=['TimeTo: On It Minutes', 'TimeTo: Attended Minutes'], kind='bar', stacked=True, ax=ax)
-
-# # Customizing the plot
-# plt.xlabel('Month')
-# plt.ylabel('Average Time (Minutes)')
-# plt.title('Average Resolution Time by Month')
-# plt.legend(['Time to: On It', 'Time to: Attended'], loc='upper right')
-
-# # Display the plot using Streamlit
-# st.pyplot(fig)
-
 col1,col5 = st.columns(2)
 
 # Create an interactive bar chart using Altair
@@ -189,7 +175,7 @@ chart = alt.Chart(agg_month_long).mark_bar().encode(
     height=400
 )
 
-# To display the chart in your Streamlit app
+# Display the 'Monthly Response Times' chart
 with col1:
     st.write(chart)
 
@@ -215,11 +201,11 @@ chart2 = alt.Chart(agg_service_long).mark_bar().encode(
     height=400
 )
 
-# To display the chart in your Streamlit app
+# Display 'Group Response Times'
 with col5:
     st.write(chart2)
 
-# Create an interactive bar chart using Altair to show the 'unique case count' for each service
+# Create an interactive bar chart to show the 'unique case count' for each unique 'Service'
 chart3 = alt.Chart(df_filtered).mark_bar().encode(
     x='Service',
     y='count()',
@@ -230,11 +216,11 @@ chart3 = alt.Chart(df_filtered).mark_bar().encode(
     height=600
 )
 
-# To display the chart in your Streamlit app
+# Display 'Interaction Count' chart
 with col1:
     st.write(chart3)
 
-# Create an interactive bar chart using Altair to show the 'unique case count' for each 'SME (On It)'
+# Create an interactive bar chart to show the 'unique case count' for each 'SME (On It)'
 chart4 = alt.Chart(df_filtered).mark_bar().encode(
     y=alt.Y('SME (On It):N', sort='-x'),  # Sorting based on the count in descending order, ensure to specify ':N' for nominal data
     x=alt.X('count()', title='Unique Case Count'),
@@ -245,7 +231,7 @@ chart4 = alt.Chart(df_filtered).mark_bar().encode(
     height=600
 )
 
-# To display the chart in your Streamlit app
+# Display 'Interactions Handled' chart
 with col5:
     st.write(chart4)
 st.subheader('Interaction Count by Requestor')
@@ -255,29 +241,11 @@ st.subheader('Interaction Count by Requestor')
 # Use pivot_table to reshape your DataFrame
 pivot_df = df_filtered.pivot_table(index='Requestor', columns='Service', aggfunc='size', fill_value=0)
 
-# Display the reshaped DataFrame in Streamlit
-# Set the number of rows to display per page
-# page_size = 10
 
-# # Calculate the total number of pages needed
-# total_pages = len(pivot_df) // page_size + (1 if len(pivot_df) % page_size > 0 else 0)
-
-# # Widget to select the current page, placed at the top
-# with col1:
-#     current_page = st.selectbox('Select a page', range(total_pages))
-
-# # Displaying the portion of DataFrame that corresponds to the current page
-# start_row = current_page * page_size
-# end_row = start_row + page_size
-
-# # Display the DataFrame within the same column, right below the selectbox
-# with col1:
-#     st.dataframe(pivot_df.iloc[start_row:end_row])
-
-# Create a pivot table using pandas
+# Create a pivot table to display the Requestor Interaction Count
 pivot_df = df_filtered.pivot_table(index='Requestor', columns='Service', aggfunc='size', fill_value=0)
 
-# Display the reshaped dataframe in Streamlit
+# Display the reshaped dataframe
 page_size = 10
 total_pages = len(pivot_df) // page_size + (1 if len(pivot_df) % page_size > 0 else 0)
 
@@ -320,7 +288,7 @@ df_sorted = df_grouped.sort_values(by=['Total_Avg_Sec', 'Number_of_Interactions'
 df_sorted['Avg_On_It'] = df_sorted['Avg_On_It_Sec'].apply(seconds_to_hms)
 df_sorted['Avg_Attended'] = df_sorted['Avg_Attended_Sec'].apply(seconds_to_hms)
 
-# Optionally, you can rename columns for better readability
+# Rename 'SME (On It)' column to 'SME'
 df_sorted.rename(columns={'SME (On It)': 'SME'}, inplace=True)
 
 # Display "Summary Table"
