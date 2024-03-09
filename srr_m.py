@@ -50,10 +50,12 @@ five9logo_url = "https://raw.githubusercontent.com/mackensey31712/srr/main/five9
 
 st.sidebar.image(five9logo_url, width=200)
 
+# Sidebar Title
+st.sidebar.markdown('# Select a **Filter:**')
 
 # Sidebar with a dropdown for 'Service' column filtering
 with st.sidebar:
-    selected_service = st.selectbox('Select a Service', ['All'] + list(df['Service'].unique()))
+    selected_service = st.selectbox('Service', ['All'] + list(df['Service'].unique()))
 
 # Apply filtering
 if selected_service != 'All':
@@ -63,7 +65,7 @@ else:
 
 # Sidebar with a dropdown for 'Month' column filtering
 with st.sidebar:
-    selected_month = st.selectbox('Select a Month', ['All'] + list(df_filtered['Month'].unique()))
+    selected_month = st.selectbox('Month', ['All'] + list(df_filtered['Month'].unique()))
 
 # Apply filtering
 if selected_month != 'All':
@@ -73,7 +75,7 @@ else:
 
 # Sidebar with a dropdown for 'Weekend?' column filtering
 with st.sidebar:
-    selected_weekend = st.selectbox('Select a Weekend?', ['All', 'Yes', 'No'])
+    selected_weekend = st.selectbox('Weekend?', ['All', 'Yes', 'No'])
 
 # Apply filtering
 if selected_weekend != 'All':
@@ -83,7 +85,7 @@ else:
 
 # Sidebar with a dropdown for 'Working Hours?' column filtering
 with st.sidebar:
-    selected_working_hours = st.selectbox('Select a Working Hours?', ['All', 'Yes', 'No'])
+    selected_working_hours = st.selectbox('Working Hours?', ['All', 'Yes', 'No'])
 
 # Apply filtering
 if selected_working_hours != 'All':
