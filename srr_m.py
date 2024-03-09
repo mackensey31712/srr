@@ -142,7 +142,7 @@ agg_service = df_filtered.groupby('Service').agg({
 agg_service['TimeTo: On It'] = agg_service['TimeTo: On It Sec'].apply(seconds_to_hms)
 agg_service['TimeTo: Attended'] = agg_service['TimeTo: Attended Sec'].apply(seconds_to_hms)
 
-st.set_option('deprecation.showPyplotGlobalUse', False)
+# st.set_option('deprecation.showPyplotGlobalUse', False)
 
 # Instead of converting these columns to datetime, consider converting seconds to minutes or hours for a more interpretable visualization
 agg_month['TimeTo: On It Minutes'] = agg_month['TimeTo: On It Sec'] / 60
