@@ -45,6 +45,12 @@ if st.button('Refresh Data'):
     st.experimental_memo.clear()
     st.experimental_rerun()
 
+# Insert Five9 logo
+five9logo_url = "https://raw.githubusercontent.com/mackensey31712/srr/main/five9log1.png"
+
+st.sidebar.image(five9logo_url, width=200)
+
+
 # Sidebar with a dropdown for 'Service' column filtering
 with st.sidebar:
     selected_service = st.selectbox('Select a Service', ['All'] + list(df['Service'].unique()))
