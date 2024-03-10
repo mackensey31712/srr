@@ -3,6 +3,9 @@ import pandas as pd
 import time
 import numpy as np
 import altair as alt
+from streamlit_lottie import st_lottie
+import requests
+import json
 
 st.set_page_config(layout="wide")
 
@@ -36,6 +39,22 @@ def seconds_to_hms(seconds):
 
 url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTyaNjkYwSc-mA_Bf3CcvP0kc7zSTkMIizPBIZB859tmhIH5C8iwwNhhqSKapN8bnN_NC56V3rOV_zg/pub?gid=0&single=true&output=csv'
 df = load_data(url).copy()
+
+# Function to load a lottie animation from a URL
+def load_lottieurl(url: str):
+    r = requests.get(url)
+    if r.status_code != 200:
+        return None
+    return r.json()
+
+lottie_people = load_lottieurl("https://lottie.host/2ad92c27-a3c0-47cc-8882-9eb531ee1e0c/A9tbMxONxp.json")
+lottie_clap = load_lottieurl("https://lottie.host/af0a6ccc-a8ac-4921-8564-5769d8e09d1e/4Czx1gna6U.json")
+lottie_queuing = load_lottieurl("https://lottie.host/910429d2-a0a4-4668-a4d4-ee831f9ccecd/yOKbdL2Yze.json")
+lottie_inprogress = load_lottieurl("https://lottie.host/c5c6caea-922b-4b4e-b34a-41ecaafe2a13/mphMkSfOkR.json")
+lottie_chill = load_lottieurl("https://lottie.host/2acdde4d-32d7-44a8-aa64-03e1aa191466/8EG5a8ToOQ.json")
+
+# Display Lottie animation
+st_lottie(lottie_people, speed=1, reverse=False, loop=True, quality="low", height=200, width=200, key=None)
 
 st.write(':wave: Welcome:exclamation:')
 st.title('Five9 SRR Management View')
@@ -124,15 +143,50 @@ with col4:
 with col5:
     st.metric("Overall Avg. TimeTo: Attended", seconds_to_hms(overall_avg_attended))
 
-# Display "In Queue" DataFrame with count
-st.title(f'In Queue:exclamation: ({len(df_inqueue)})')
-with st.expander("Show Data", expanded=False):
-    st.dataframe(df_inqueue)
+# Display "In Queue" DataFrame with count and some text
+in_queue_count = len(df_inqueue)
+
+# Using columns to place text and animation side by side
+if in_queue_count == 0:
+    col1, col2 = st.columns([0.3, 1.2])  # Adjust the ratio as needed for your layout
+    with col1:
+        st.title(f'In Queue (0)')
+    with col2:
+        # Display Lottie animation if count is 0
+        st_lottie(lottie_clap, speed=1, height=100, width=200)  # Adjust height as needed
+    with st.expander("Show Data", expanded=False):
+        st.dataframe(df_inqueue)
+else:
+    col1, col2 = st.columns([0.3, 1.2])  # Adjust the ratio as needed for your layout
+    with col1:
+        st.title(f'In Queue len({in_queue_count})')
+    with col2:
+        # Display Lottie animation if count is not 0
+        st_lottie(lottie_queuing, speed=1, height=100, width=200)  # Adjust height as needed
+    with st.expander("Show Data", expanded=False):
+        st.dataframe(df_inqueue)
+
 
 # Display "In Progress" DataFrame with count
-st.title(f'In Progress:hourglass: ({len(df_inprogress)})')
-with st.expander("Show Data", expanded=False):
-    st.dataframe(df_inprogress)
+in_progress_count = len(df_inprogress)
+if in_progress_count == 0:
+    col1, col2 = st.columns([0.3, 1.2])  # Adjust the ratio as needed for your layout
+    with col1:
+        st.title(f'In Progress (0)')
+    with col2:
+        # Display Lottie animation if count is 0
+        st_lottie(lottie_chill, speed=1, height=100, width=200)  # Adjust height as needed
+    with st.expander("Show Data", expanded=False):
+        st.dataframe(df_inprogress)
+else:
+    col1, col2 = st.columns([0.3, 1.2])  # Adjust the ratio as needed for your layout
+    with col1:
+        st.title(f'In Progress len({in_progress_count})')
+    with col2:
+        # Display Lottie animation if count is not 0
+        st_lottie(lottie_inprogress, speed=1, height=100, width=200)  # Adjust height as needed
+    with st.expander("Show Data", expanded=False):
+        st.dataframe(df_inprogress)
 
 agg_month = df_filtered.groupby('Month').agg({
     'TimeTo: On It Sec': 'mean',
