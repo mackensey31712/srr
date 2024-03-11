@@ -181,7 +181,7 @@ if in_progress_count == 0:
 else:
     col1, col2 = st.columns([0.3, 1.2])  # Adjust the ratio as needed for your layout
     with col1:
-        st.title(f'In Progress len({in_progress_count})')
+        st.title(f'In Progress ({in_progress_count})')
     with col2:
         # Display Lottie animation if count is not 0
         st_lottie(lottie_inprogress, speed=1, height=100, width=200)  # Adjust height as needed
