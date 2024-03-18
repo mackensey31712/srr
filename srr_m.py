@@ -53,16 +53,29 @@ lottie_queuing = load_lottieurl("https://lottie.host/910429d2-a0a4-4668-a4d4-ee8
 lottie_inprogress = load_lottieurl("https://lottie.host/c5c6caea-922b-4b4e-b34a-41ecaafe2a13/mphMkSfOkR.json")
 lottie_chill = load_lottieurl("https://lottie.host/2acdde4d-32d7-44a8-aa64-03e1aa191466/8EG5a8ToOQ.json")
 
+# Button to refresh the data - align to upper right
+col1, col2 = st.columns([3, .350])
+with col2:
+    if st.button('Refresh Data'):
+        st.experimental_memo.clear()
+        st.experimental_rerun()
+
+# Center align 'five9 srr agent view'
+st.markdown(
+    f"<h1 style='text-align: center;'>Five9 SRR Management View</h1>",
+    unsafe_allow_html=True
+)
+
 # Display Lottie animation
 st_lottie(lottie_people, speed=1, reverse=False, loop=True, quality="low", height=200, width=200, key=None)
 
 st.write(':wave: Welcome:exclamation:')
-st.title('Five9 SRR Management View')
+# st.title('Five9 SRR Management View')
 
-# Button to refresh the data
-if st.button('Refresh Data'):
-    st.experimental_memo.clear()
-    st.experimental_rerun()
+# # Button to refresh the data
+# if st.button('Refresh Data'):
+#     st.experimental_memo.clear()
+#     st.experimental_rerun()
 
 # Insert Five9 logo
 five9logo_url = "https://raw.githubusercontent.com/mackensey31712/srr/main/five9log1.png"
@@ -112,16 +125,24 @@ if selected_working_hours != 'All':
 else:
     df_filtered = df_filtered
 
+# Sidebar with a multi-select dropdown for 'SME (On It)' column filtering
+with st.sidebar:
+    all_sme_options = ['All'] + list(df_filtered['SME (On It)'].unique())
+    selected_sme_on_it = st.multiselect('SME (On It)', all_sme_options, default='All')
+
+# Apply filtering
+if 'All' not in selected_sme_on_it:
+    df_filtered = df_filtered[df_filtered['SME (On It)'].isin(selected_sme_on_it)]
+# else:
+#     df_filtered = df_filtered
+
+
 # DataFrames for "In Queue" and "In Progress"
 df_inqueue = df[df['Status'] == 'In Queue']
 df_inqueue = df_inqueue[['Case #', 'Requestor','Service','Creation Timestamp', 'Message Link']]
 df_inprogress = df[df['Status'] == 'In Progress']
 df_inprogress = df_inprogress[['Case #', 'Requestor','Service','Creation Timestamp', 'SME (On It)', 'TimeTo: On It', 'Message Link']]
 
-# Display the filtered dataframe
-st.title('Data')
-with st.expander('Show Data', expanded=False):
-    st.dataframe(df_filtered)
 
 # Metrics
 df_filtered['TimeTo: On It Sec'] = df_filtered['TimeTo: On It'].apply(convert_to_seconds)
@@ -187,6 +208,11 @@ else:
         st_lottie(lottie_inprogress, speed=1, height=100, width=200)  # Adjust height as needed
     with st.expander("Show Data", expanded=False):
         st.dataframe(df_inprogress)
+
+# Display the filtered dataframe
+st.title('Data')
+with st.expander('Show Data', expanded=False):
+    st.dataframe(df_filtered)
 
 agg_month = df_filtered.groupby('Month').agg({
     'TimeTo: On It Sec': 'mean',
