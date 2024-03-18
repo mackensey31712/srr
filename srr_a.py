@@ -54,24 +54,22 @@ lottie_queuing = load_lottieurl("https://lottie.host/910429d2-a0a4-4668-a4d4-ee8
 lottie_inprogress = load_lottieurl("https://lottie.host/c5c6caea-922b-4b4e-b34a-41ecaafe2a13/mphMkSfOkR.json")
 lottie_chill = load_lottieurl("https://lottie.host/2acdde4d-32d7-44a8-aa64-03e1aa191466/8EG5a8ToOQ.json")
 
+# Button to refresh the data - align to upper right
+col1, col2 = st.columns([3, .350])
+with col2:
+    if st.button('Refresh Data'):
+        st.experimental_memo.clear()
+        st.experimental_rerun()
 
-# Display Lottie animation
-st_lottie(lottie_globe, speed=1, reverse=False, loop=True, quality="low", height=200, width=200, key=None)
-
-st.write(':wave: Welcome:exclamation:')
-
-# Center align 'Five9 SRR Agent View'
+# Center align 'five9 srr agent view'
 st.markdown(
     f"<h1 style='text-align: center;'>Five9 SRR Agent View</h1>",
     unsafe_allow_html=True
 )
 
-# st.title('Five9 SRR Agent View')
+# Display lottie animation
+st_lottie(lottie_globe, speed=1, reverse=False, loop=True, quality="low", height=200, width=200, key=None)
 
-# Button to refresh the data
-if st.button('Refresh Data'):
-    st.experimental_memo.clear()
-    st.experimental_rerun()
 
 # Insert Five9 logo
 five9logo_url = "https://raw.githubusercontent.com/mackensey31712/srr/main/five9log1.png"
