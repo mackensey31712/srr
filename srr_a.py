@@ -59,7 +59,14 @@ lottie_chill = load_lottieurl("https://lottie.host/2acdde4d-32d7-44a8-aa64-03e1a
 st_lottie(lottie_globe, speed=1, reverse=False, loop=True, quality="low", height=200, width=200, key=None)
 
 st.write(':wave: Welcome:exclamation:')
-st.title('Five9 SRR Agent View')
+
+# Center align 'Five9 SRR Agent View'
+st.markdown(
+    f"<h1 style='text-align: center;'>Five9 SRR Agent View</h1>",
+    unsafe_allow_html=True
+)
+
+# st.title('Five9 SRR Agent View')
 
 # Button to refresh the data
 if st.button('Refresh Data'):
@@ -121,10 +128,7 @@ df_inqueue = df_inqueue[['Case #', 'Requestor','Service','Creation Timestamp', '
 df_inprogress = df[df['Status'] == 'In Progress']
 df_inprogress = df_inprogress[['Case #', 'Requestor','Service','Creation Timestamp', 'SME (On It)', 'TimeTo: On It', 'Message Link']]
 
-# Display the filtered dataframe
-st.title('Data')
-with st.expander('Show Data', expanded=False):
-    st.dataframe(df_filtered)
+# DataFrame was originaly placed here
 
 # Metrics
 df_filtered['TimeTo: On It Sec'] = df_filtered['TimeTo: On It'].apply(convert_to_seconds)
@@ -187,6 +191,12 @@ else:
     with st.expander("Show Data", expanded=False):
         st.dataframe(df_inprogress)
 
+# Display the filtered dataframe
+st.title('Data')
+with st.expander('Show Data', expanded=False):
+    st.dataframe(df_filtered)
+
+
 agg_month = df_filtered.groupby('Month').agg({
     'TimeTo: On It Sec': 'mean',
     'TimeTo: Attended Sec': 'mean'
@@ -205,7 +215,7 @@ agg_service['TimeTo: Attended'] = agg_service['TimeTo: Attended Sec'].apply(seco
 
 # st.set_option('deprecation.showPyplotGlobalUse', False)
 
-# Instead of converting these columns to datetime, consider converting seconds to minutes or hours for a more interpretable visualization
+# Instead of converting these columns to datetime, converting seconds to minutes or hours for a more interpretable visualization
 agg_month['TimeTo: On It Minutes'] = agg_month['TimeTo: On It Sec'] / 60
 agg_month['TimeTo: Attended Minutes'] = agg_month['TimeTo: Attended Sec'] / 60
 
