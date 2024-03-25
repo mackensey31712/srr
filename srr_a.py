@@ -156,7 +156,7 @@ if in_queue_count == 0:
         # Display Lottie animation if count is 0
         st_lottie(lottie_clap, speed=1, height=100, width=200)  # Adjust height as needed
     with st.expander("Show Data", expanded=False):
-        st.dataframe(df_inqueue)
+        st.dataframe(df_inqueue, use_container_width=True)
 else:
     col1, col2 = st.columns([0.3, 1.2])  # Adjust the ratio as needed for your layout
     with col1:
@@ -165,7 +165,7 @@ else:
         # Display Lottie animation if count is not 0
         st_lottie(lottie_queuing, speed=1, height=100, width=200)  # Adjust height as needed
     with st.expander("Show Data", expanded=False):
-        st.dataframe(df_inqueue)
+        st.dataframe(df_inqueue, use_container_width=True)
 
 
 # Display "In Progress" DataFrame with count
@@ -178,7 +178,7 @@ if in_progress_count == 0:
         # Display Lottie animation if count is 0
         st_lottie(lottie_chill, speed=1, height=100, width=200)  # Adjust height as needed
     with st.expander("Show Data", expanded=False):
-        st.dataframe(df_inprogress)
+        st.dataframe(df_inprogress, use_container_width=True)
 else:
     col1, col2 = st.columns([0.4, 1.2])  # Adjust the ratio as needed for your layout
     with col1:
@@ -187,7 +187,7 @@ else:
         # Display Lottie animation if count is not 0
         st_lottie(lottie_inprogress, speed=1, height=100, width=200)  # Adjust height as needed
     with st.expander("Show Data", expanded=False):
-        st.dataframe(df_inprogress)
+        st.dataframe(df_inprogress, use_container_width=True)
 
 # Display the filtered dataframe
 st.title('Data')
