@@ -120,6 +120,15 @@ if selected_working_hours != 'All':
 else:
     df_filtered = df_filtered
 
+# Sidebar with a multi-select dropdown for 'SME (On It)' column filtering
+with st.sidebar:
+    all_sme_options = ['All'] + list(df_filtered['SME (On It)'].unique())
+    selected_sme_on_it = st.multiselect('SME (On It)', all_sme_options, default='All')
+
+# Apply filtering
+if 'All' not in selected_sme_on_it:
+    df_filtered = df_filtered[df_filtered['SME (On It)'].isin(selected_sme_on_it)]
+
 # DataFrames for "In Queue" and "In Progress"
 df_inqueue = df[df['Status'] == 'In Queue']
 df_inqueue = df_inqueue[['Case #', 'Requestor','Service','Creation Timestamp', 'Message Link']]
