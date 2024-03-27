@@ -135,12 +135,12 @@ if 'All' in selected_sme_on_it:
     st.markdown("---")
 elif not selected_sme_on_it:
     # If nothing is selected, display a message indicating all SMEs are being displayed
-    st.markdown("<h3 style='color: red;'>Displaying All SMEs</h1>", unsafe_allow_html=True)
+    st.sidebar.markdown("<h3 style='color: red;'>Displaying All SMEs</h1>", unsafe_allow_html=True)
     
 else:
     # If specific SMEs are selected, filter the dataframe and display the result
     df_filtered = df[df['SME (On It)'].isin(selected_sme_on_it)]
-    st.markdown(
+    st.sidebar.markdown(
         "<h3 style='color: red;'>Displaying Selected SMEs</h1>",
         unsafe_allow_html=True)
     df_filtered = df_filtered
