@@ -137,7 +137,7 @@ with st.sidebar:
 # Check the selection conditions
 if 'All' in selected_sme_on_it:
     # If 'All' is selected, display the whole filtered dataframe without a message
-    st.markdown("---")
+    st.sidebar.markdown("---")
 elif not selected_sme_on_it:
     # If nothing is selected, display a message indicating all SMEs are being displayed
     st.sidebar.markdown("<h3 style='color: red;'>Displaying All SMEs</h1>", unsafe_allow_html=True)
