@@ -125,9 +125,27 @@ with st.sidebar:
     all_sme_options = ['All'] + list(df_filtered['SME (On It)'].unique())
     selected_sme_on_it = st.multiselect('SME (On It)', all_sme_options, default='All')
 
-# Apply filtering
-if 'All' not in selected_sme_on_it:
-    df_filtered = df_filtered[df_filtered['SME (On It)'].isin(selected_sme_on_it)]
+# # Apply filtering
+# if 'All' not in selected_sme_on_it:
+#     df_filtered = df_filtered[df_filtered['SME (On It)'].isin(selected_sme_on_it)]
+
+# Check the selection conditions
+if 'All' in selected_sme_on_it:
+    # If 'All' is selected, display the whole filtered dataframe without a message
+    st.markdown("---")
+elif not selected_sme_on_it:
+    # If nothing is selected, display a message indicating all SMEs are being displayed
+    st.markdown("<h3 style='color: red;'>Displaying All SMEs</h1>", unsafe_allow_html=True)
+    
+else:
+    # If specific SMEs are selected, filter the dataframe and display the result
+    df_filtered = df[df['SME (On It)'].isin(selected_sme_on_it)]
+    st.markdown(
+        "<h3 style='color: red;'>Displaying Selected SMEs</h1>",
+        unsafe_allow_html=True)
+    df_filtered = df_filtered
+
+
 
 # DataFrames for "In Queue" and "In Progress"
 df_inqueue = df[df['Status'] == 'In Queue']
