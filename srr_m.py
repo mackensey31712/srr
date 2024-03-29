@@ -37,7 +37,7 @@ def seconds_to_hms(seconds):
     seconds = seconds % 60
     return f"{int(hours):02d}:{int(minutes):02d}:{int(seconds):02d}"
 
-url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTyaNjkYwSc-mA_Bf3CcvP0kc7zSTkMIizPBIZB859tmhIH5C8iwwNhhqSKapN8bnN_NC56V3rOV_zg/pub?gid=0&single=true&output=csv'
+url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSQVnfH-edbXqAXxlCb2FrhxxpsOHJhtqKMYsHWxf5SyLVpAPTSIWQeIGrBAGa16dE4CA59o2wyz59G/pub?gid=0&single=true&output=csv'
 df = load_data(url).copy()
 
 # Function to load a lottie animation from a URL
