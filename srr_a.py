@@ -8,7 +8,7 @@ import requests
 import json
 
 
-st.set_page_config(layout="wide")
+st.set_page_config(page_title="SRR Agent View", page_icon=":mag_right:", layout="wide")
 
 # Create functions for computation
 @st.cache_data(ttl=120, show_spinner=True)
