@@ -162,9 +162,36 @@ df_inprogress = df_inprogress[['Case #', 'Requestor','Service','Creation Timesta
 # Metrics
 df_filtered['TimeTo: On It Sec'] = df_filtered['TimeTo: On It'].apply(convert_to_seconds)
 df_filtered['TimeTo: Attended Sec'] = df_filtered['TimeTo: Attended'].apply(convert_to_seconds)
-overall_avg_on_it = df_filtered['TimeTo: On It Sec'].mean()
-overall_avg_attended = df_filtered['TimeTo: Attended Sec'].mean()
+# overall_avg_on_it = df_filtered['TimeTo: On It Sec'].mean()
+# overall_avg_attended = df_filtered['TimeTo: Attended Sec'].mean()
+# unique_case_count, survey_avg, survey_count = calculate_metrics(df_filtered)
+
+# # Display metrics
+# col1, col2, col3, col4, col5 = st.columns(5)
+# with col1:
+#     st.metric(label="Interactions", value=unique_case_count)
+# with col2:
+#     st.metric(label="Survey Avg.", value=f"{survey_avg:.2f}")
+# with col3:
+#     st.metric(label="Answered Surveys", value=survey_count)
+# with col4:
+#     st.metric("Overall Avg. TimeTo: On It", seconds_to_hms(overall_avg_on_it))
+# with col5:
+#     st.metric("Overall Avg. TimeTo: Attended", seconds_to_hms(overall_avg_attended))
+
+
+# Ensure 'TimeTo: On It' and 'TimeTo: Attended' are in timedelta format
+df_filtered['TimeTo: On It'] = pd.to_timedelta(df_filtered['TimeTo: On It'])
+df_filtered['TimeTo: Attended'] = pd.to_timedelta(df_filtered['TimeTo: Attended'])
+
+# Calculate the average seconds directly from 'TimeTo: On It' and 'TimeTo: Attended', and convert to 'hh:mm:ss'
+overall_avg_on_it_sec = df_filtered['TimeTo: On It'].dt.total_seconds().mean()
+overall_avg_attended_sec = df_filtered['TimeTo: Attended'].dt.total_seconds().mean()
 unique_case_count, survey_avg, survey_count = calculate_metrics(df_filtered)
+
+overall_avg_on_it_hms = seconds_to_hms(overall_avg_on_it_sec)
+overall_avg_attended_hms = seconds_to_hms(overall_avg_attended_sec)
+
 
 # Display metrics
 col1, col2, col3, col4, col5 = st.columns(5)
@@ -175,9 +202,9 @@ with col2:
 with col3:
     st.metric(label="Answered Surveys", value=survey_count)
 with col4:
-    st.metric("Overall Avg. TimeTo: On It", seconds_to_hms(overall_avg_on_it))
+    st.metric("Overall Avg. TimeTo: On It", overall_avg_on_it_hms)
 with col5:
-    st.metric("Overall Avg. TimeTo: Attended", seconds_to_hms(overall_avg_attended))
+    st.metric("Overall Avg. TimeTo: Attended", overall_avg_attended_hms)
 
 # Display "In Queue" DataFrame with count and some text
 in_queue_count = len(df_inqueue)
