@@ -395,8 +395,8 @@ st.dataframe(pivot_df.iloc[start_row:end_row].style.set_table_styles(styles))
 # and then by the highest average survey.
 
 # Group by 'SME (On It)' and calculate the required metrics including average survey
-df_filtered['TimeTo: On It Sec'] = df_filtered['TimeTo: On It'].apply(convert_to_seconds)
-df_filtered['TimeTo: Attended Sec'] = df_filtered['TimeTo: Attended'].apply(convert_to_seconds)
+# df_filtered['TimeTo: On It Sec'] = df_filtered['TimeTo: On It'].apply(convert_to_seconds)
+# df_filtered['TimeTo: Attended Sec'] = df_filtered['TimeTo: Attended'].apply(convert_to_seconds)
 
 df_grouped = df_filtered.groupby('SME (On It)').agg(
     Avg_On_It_Sec=pd.NamedAgg(column='TimeTo: On It Sec', aggfunc='mean'),
