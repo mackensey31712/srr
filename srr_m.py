@@ -57,8 +57,10 @@ lottie_chill = load_lottieurl("https://lottie.host/2acdde4d-32d7-44a8-aa64-03e1a
 col1, col2 = st.columns([3, .350])
 with col2:
     if st.button('Refresh Data'):
-        st.experimental_memo.clear()
-        st.experimental_rerun()
+        # st.experimental_memo.clear()
+        st.cache_data.clear()
+        # st.experimental_rerun()
+        st.rerun()
 
 # Center align 'five9 srr agent view'
 st.markdown(
