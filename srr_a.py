@@ -148,9 +148,9 @@ else:
 
 
 # DataFrames for "In Queue" and "In Progress"
-df_inqueue = df[df['Status'] == 'In Queue']
+df_inqueue = df_filtered[df_filtered['Status'] == 'In Queue']
 df_inqueue = df_inqueue[['Case #', 'Requestor','Service','Creation Timestamp', 'Message Link']]
-df_inprogress = df[df['Status'] == 'In Progress']
+df_inprogress = df_filtered[df_filtered['Status'] == 'In Progress']
 df_inprogress = df_inprogress[['Case #', 'Requestor','Service','Creation Timestamp', 'SME (On It)', 'TimeTo: On It', 'Message Link']]
 
 # DataFrame was originaly placed here
@@ -284,9 +284,11 @@ agg_month_long = agg_month.melt(id_vars=['Month'],
                                 var_name='Category',
                                 value_name='Minutes')
 
-# Create a stacked bar chart
+month_order = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+# Create a stacked bar chart with months ordered as specified
 chart = alt.Chart(agg_month_long).mark_bar().encode(
-    x='Month',
+    x=alt.X('Month', sort=month_order),  # Use the 'sort' argument to order months
     y=alt.Y('Minutes', stack='zero'),  # Use stack='zero' for stacking
     color='Category',  # Color distinguishes the categories
     tooltip=['Month', 'Category', 'Minutes']  # Optional: add tooltip for interactivity
