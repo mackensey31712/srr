@@ -12,9 +12,9 @@ import pygwalker as pyg
 
 st.set_page_config(page_title="SRR Management View", page_icon=":mag_right:", layout="wide")
 
-# Establish communication between PygWalker and Streamlit -- A1 - START --This is working---
-init_streamlit_comm()
-# -- A1 - END --This is working--
+# # Establish communication between PygWalker and Streamlit -- A1 - START --This is working---
+# init_streamlit_comm()
+# # -- A1 - END --This is working--
 
 @st.cache_data(ttl=120, show_spinner=True)
 def load_data(url):
@@ -436,17 +436,17 @@ df_sorted.rename(columns={'SME (On It)': 'SME'}, inplace=True)
 st.subheader('SME Summary Table')
 st.dataframe(df_sorted[['SME', 'Avg_On_It', 'Avg_Attended', 'Number_of_Interactions', 'Avg_Survey']].reset_index(drop=True))
 
-st.subheader('Create Your Own Visualization Below')
-# ----- A2 -This is working - START-----
-@st.cache_resource
-def get_pyg_renderer(dataframe) -> "StreamlitRenderer":
-    # return StreamlitRenderer(dataframe, spec="./gw_config.json", spec_io_mode = "r")
-    return StreamlitRenderer(dataframe)
+# st.subheader('Create Your Own Visualization Below')
+# # ----- A2 -This is working - START-----
+# @st.cache_resource
+# def get_pyg_renderer(dataframe) -> "StreamlitRenderer":
+#     # return StreamlitRenderer(dataframe, spec="./gw_config.json", spec_io_mode = "r")
+#     return StreamlitRenderer(dataframe)
 
-# After preparing your dataframe and right before the place you want to render PygWalker
-renderer = get_pyg_renderer(df_filtered)  # Assuming df_filtered is your final DataFrame
-renderer.render_explore()
-# ----- A2 -This is working - END -----
+# # After preparing your dataframe and right before the place you want to render PygWalker
+# renderer = get_pyg_renderer(df_filtered)  # Assuming df_filtered is your final DataFrame
+# renderer.render_explore()
+# # ----- A2 -This is working - END -----
 
 # # B2 - This is working - START-----
 # # Display a specific chart in PygWalker
