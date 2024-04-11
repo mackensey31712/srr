@@ -1,0 +1,389 @@
+[
+    {
+      "config": {
+        "defaultAggregated": true,
+        "geoms": [
+          "auto"
+        ],
+        "coordSystem": "generic",
+        "limit": -1,
+        "timezoneDisplayOffset": 0
+      },
+      "encodings": {
+        "dimensions": [
+          {
+            "dragId": "gw_TQYe",
+            "fid": "Case #",
+            "name": "Case #",
+            "basename": "Case #",
+            "semanticType": "nominal",
+            "analyticType": "dimension",
+            "offset": 0
+          },
+          {
+            "dragId": "gw_8Xqx",
+            "fid": "Service",
+            "name": "Service",
+            "basename": "Service",
+            "semanticType": "nominal",
+            "analyticType": "dimension",
+            "offset": 0
+          },
+          {
+            "dragId": "gw_uOX1",
+            "fid": "Inquiry",
+            "name": "Inquiry",
+            "basename": "Inquiry",
+            "semanticType": "nominal",
+            "analyticType": "dimension",
+            "offset": 0
+          },
+          {
+            "dragId": "gw_S51h",
+            "fid": "Requestor",
+            "name": "Requestor",
+            "basename": "Requestor",
+            "semanticType": "nominal",
+            "analyticType": "dimension",
+            "offset": 0
+          },
+          {
+            "dragId": "gw_z9IV",
+            "fid": "Creation Timestamp",
+            "name": "Creation Timestamp",
+            "basename": "Creation Timestamp",
+            "semanticType": "nominal",
+            "analyticType": "dimension",
+            "offset": 0
+          },
+          {
+            "dragId": "gw_3pfr",
+            "fid": "SME (On It)",
+            "name": "SME (On It)",
+            "basename": "SME (On It)",
+            "semanticType": "nominal",
+            "analyticType": "dimension",
+            "offset": 0
+          },
+          {
+            "dragId": "gw_RPxI",
+            "fid": "On It Time",
+            "name": "On It Time",
+            "basename": "On It Time",
+            "semanticType": "nominal",
+            "analyticType": "dimension",
+            "offset": 0
+          },
+          {
+            "dragId": "gw_Peyp",
+            "fid": "Attendee",
+            "name": "Attendee",
+            "basename": "Attendee",
+            "semanticType": "nominal",
+            "analyticType": "dimension",
+            "offset": 0
+          },
+          {
+            "dragId": "gw_LDwR",
+            "fid": "Attended Timestamp",
+            "name": "Attended Timestamp",
+            "basename": "Attended Timestamp",
+            "semanticType": "nominal",
+            "analyticType": "dimension",
+            "offset": 0
+          },
+          {
+            "dragId": "gw_HOkn",
+            "fid": "Message Link",
+            "name": "Message Link",
+            "basename": "Message Link",
+            "semanticType": "nominal",
+            "analyticType": "dimension",
+            "offset": 0
+          },
+          {
+            "dragId": "gw_DpXw",
+            "fid": "Message Link 0",
+            "name": "Message Link 0",
+            "basename": "Message Link 0",
+            "semanticType": "nominal",
+            "analyticType": "dimension",
+            "offset": 0
+          },
+          {
+            "dragId": "gw_CgsT",
+            "fid": "Message Link 1",
+            "name": "Message Link 1",
+            "basename": "Message Link 1",
+            "semanticType": "nominal",
+            "analyticType": "dimension",
+            "offset": 0
+          },
+          {
+            "dragId": "gw_v6VH",
+            "fid": "Message Link 2",
+            "name": "Message Link 2",
+            "basename": "Message Link 2",
+            "semanticType": "nominal",
+            "analyticType": "dimension",
+            "offset": 0
+          },
+          {
+            "dragId": "gw_joRH",
+            "fid": "Status",
+            "name": "Status",
+            "basename": "Status",
+            "semanticType": "nominal",
+            "analyticType": "dimension",
+            "offset": 0
+          },
+          {
+            "dragId": "gw_fra3",
+            "fid": "Case Reason",
+            "name": "Case Reason",
+            "basename": "Case Reason",
+            "semanticType": "nominal",
+            "analyticType": "dimension",
+            "offset": 0
+          },
+          {
+            "dragId": "gw_Ibkh",
+            "fid": "AFI",
+            "name": "AFI",
+            "basename": "AFI",
+            "semanticType": "nominal",
+            "analyticType": "dimension",
+            "offset": 0
+          },
+          {
+            "dragId": "gw_Qs4f",
+            "fid": "AFI Comment",
+            "name": "AFI Comment",
+            "basename": "AFI Comment",
+            "semanticType": "nominal",
+            "analyticType": "dimension",
+            "offset": 0
+          },
+          {
+            "dragId": "gw_GfZN",
+            "fid": "Article#",
+            "name": "Article#",
+            "basename": "Article#",
+            "semanticType": "nominal",
+            "analyticType": "dimension",
+            "offset": 0
+          },
+          {
+            "dragId": "gw_ZNYm",
+            "fid": "Month",
+            "name": "Month",
+            "basename": "Month",
+            "semanticType": "nominal",
+            "analyticType": "dimension",
+            "offset": 0
+          },
+          {
+            "dragId": "gw__PU_",
+            "fid": "Day",
+            "name": "Day",
+            "basename": "Day",
+            "semanticType": "nominal",
+            "analyticType": "dimension",
+            "offset": 0
+          },
+          {
+            "dragId": "gw_I89k",
+            "fid": "Weekend?",
+            "name": "Weekend?",
+            "basename": "Weekend?",
+            "semanticType": "nominal",
+            "analyticType": "dimension",
+            "offset": 0
+          },
+          {
+            "dragId": "gw_mMM6",
+            "fid": "Date Created",
+            "name": "Date Created",
+            "basename": "Date Created",
+            "semanticType": "temporal",
+            "analyticType": "dimension",
+            "offset": 0
+          },
+          {
+            "dragId": "gw_Hm0f",
+            "fid": "Working Hours?",
+            "name": "Working Hours?",
+            "basename": "Working Hours?",
+            "semanticType": "nominal",
+            "analyticType": "dimension",
+            "offset": 0
+          },
+          {
+            "dragId": "gw_mea_key_fid",
+            "fid": "gw_mea_key_fid",
+            "name": "Measure names",
+            "analyticType": "dimension",
+            "semanticType": "nominal",
+            "offset": 0
+          }
+        ],
+        "measures": [
+          {
+            "dragId": "gw_-ex6",
+            "fid": "TimeTo: On It",
+            "name": "TimeTo: On It",
+            "basename": "TimeTo: On It",
+            "analyticType": "measure",
+            "semanticType": "quantitative",
+            "aggName": "sum",
+            "offset": 0
+          },
+          {
+            "dragId": "gw_C9ZL",
+            "fid": "TimeTo: Attended",
+            "name": "TimeTo: Attended",
+            "basename": "TimeTo: Attended",
+            "analyticType": "measure",
+            "semanticType": "quantitative",
+            "aggName": "sum",
+            "offset": 0
+          },
+          {
+            "dragId": "gw_Q7YO",
+            "fid": "TimeTo: On It Sec",
+            "name": "TimeTo: On It Sec",
+            "basename": "TimeTo: On It Sec",
+            "analyticType": "measure",
+            "semanticType": "quantitative",
+            "aggName": "sum",
+            "offset": 0
+          },
+          {
+            "dragId": "gw_KPCB",
+            "fid": "TimeTo: Attended Sec",
+            "name": "TimeTo: Attended Sec",
+            "basename": "TimeTo: Attended Sec",
+            "analyticType": "measure",
+            "semanticType": "quantitative",
+            "aggName": "sum",
+            "offset": 0
+          },
+          {
+            "dragId": "gw_count_fid",
+            "fid": "gw_count_fid",
+            "name": "Row count",
+            "analyticType": "measure",
+            "semanticType": "quantitative",
+            "aggName": "sum",
+            "computed": true,
+            "expression": {
+              "op": "one",
+              "params": [],
+              "as": "gw_count_fid"
+            },
+            "offset": 0
+          },
+          {
+            "dragId": "gw_mea_val_fid",
+            "fid": "gw_mea_val_fid",
+            "name": "Measure values",
+            "analyticType": "measure",
+            "semanticType": "quantitative",
+            "aggName": "sum",
+            "offset": 0
+          }
+        ],
+        "rows": [
+          {
+            "dragId": "gw_PVSl",
+            "fid": "SME (On It)",
+            "name": "SME (On It)",
+            "basename": "SME (On It)",
+            "semanticType": "nominal",
+            "analyticType": "dimension",
+            "offset": 0,
+            "sort": "descending"
+          }
+        ],
+        "columns": [
+          {
+            "dragId": "gw_9pt5",
+            "fid": "gw_count_fid",
+            "name": "Row count",
+            "analyticType": "measure",
+            "semanticType": "quantitative",
+            "aggName": "sum",
+            "computed": true,
+            "expression": {
+              "op": "one",
+              "params": [],
+              "as": "gw_count_fid"
+            },
+            "offset": 0
+          }
+        ],
+        "color": [
+          {
+            "dragId": "gw_QYIg",
+            "fid": "Case Reason",
+            "name": "Case Reason",
+            "basename": "Case Reason",
+            "semanticType": "nominal",
+            "analyticType": "dimension",
+            "offset": 0
+          }
+        ],
+        "opacity": [],
+        "size": [],
+        "shape": [],
+        "radius": [],
+        "theta": [],
+        "longitude": [],
+        "latitude": [],
+        "geoId": [],
+        "details": [],
+        "filters": [
+          {
+            "dragId": "gw_ZQNo",
+            "fid": "Case Reason",
+            "name": "Case Reason",
+            "basename": "Case Reason",
+            "semanticType": "nominal",
+            "analyticType": "dimension",
+            "offset": 0,
+            "rule": {
+              "type": "not in",
+              "value": [
+                null
+              ]
+            }
+          }
+        ],
+        "text": []
+      },
+      "layout": {
+        "showActions": false,
+        "showTableSummary": false,
+        "stack": "stack",
+        "interactiveScale": false,
+        "zeroScale": true,
+        "size": {
+          "mode": "fixed",
+          "width": 757,
+          "height": 533
+        },
+        "format": {},
+        "geoKey": "name",
+        "resolve": {
+          "x": false,
+          "y": false,
+          "color": false,
+          "opacity": false,
+          "shape": false,
+          "size": false
+        }
+      },
+      "visId": "gw_FVNw",
+      "name": "Chart 1"
+    }
+  ]
