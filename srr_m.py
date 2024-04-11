@@ -440,7 +440,8 @@ st.subheader('Create Your Own Visualization Below')
 # ----- A2 -This is working - START-----
 @st.cache_resource
 def get_pyg_renderer(dataframe) -> "StreamlitRenderer":
-    return StreamlitRenderer(dataframe, spec="./gw_config.json", spec_io_mode = "r")
+    # return StreamlitRenderer(dataframe, spec="./gw_config.json", spec_io_mode = "r")
+    return StreamlitRenderer(dataframe)
 
 # After preparing your dataframe and right before the place you want to render PygWalker
 renderer = get_pyg_renderer(df_filtered)  # Assuming df_filtered is your final DataFrame
