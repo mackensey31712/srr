@@ -9,6 +9,9 @@ import json
 from pygwalker.api.streamlit import StreamlitRenderer, init_streamlit_comm
 import streamlit.components.v1 as components
 import pygwalker as pyg
+from st_aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode
+from st_aggrid.shared import JsCode
+import plotly.express as px
 
 st.set_page_config(page_title="SRR Management View", page_icon=":mag_right:", layout="wide")
 
@@ -375,40 +378,44 @@ chart4 = alt.Chart(df_filtered).mark_bar().encode(
 # Display 'Interactions Handled' chart
 with col5:
     st.write(chart4)
+
+
+# Filter out rows where "Case Reason" or "Case #" is null (adjust column names as necessary)
+# df_filtered = df.dropna(subset=['Case #', 'Case Reason'])
+
+# Group by "Case Reason" and count "Case #" occurrences
+case_counts = df_filtered.groupby('Case Reason')['Case #'].count().reset_index()
+
+# Sort the DataFrame by counts in ascending order
+case_counts_sorted = case_counts.sort_values(by='Case #', ascending=True)
+
+# Generate a pie chart
+fig = px.pie(case_counts_sorted, values='Case #', names='Case Reason', title='Distribution of Case Reasons')
+
+# Show the pie chart in the Streamlit app
+st.plotly_chart(fig)
+
+
 st.subheader('Interaction Count by Requestor')
 
-
 # Display a Dataframe where the rows are the 'Requestor', the columns would be the 'Service', and the values would be the count of each 'Service'
-# Use pivot_table to reshape your DataFrame
+
+# Create a pivot table using pandas
 pivot_df = df_filtered.pivot_table(index='Requestor', columns='Service', aggfunc='size', fill_value=0)
 
+# Reset the index so 'Requestor' becomes a regular column
+pivot_df.reset_index(inplace=True)
 
-# Create a pivot table to display the Requestor Interaction Count
-pivot_df = df_filtered.pivot_table(index='Requestor', columns='Service', aggfunc='size', fill_value=0)
+# Setting up GridOptions for AgGrid
+gb = GridOptionsBuilder.from_dataframe(pivot_df)
+gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=10)  # Enable pagination
+# gb.configure_side_bar(filters_panel=False, columns_panel=False)  # Enable side bar if you want filters and columns tool panel
+gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, aggFunc='sum', editable=False)
 
-# Display the reshaped dataframe
-page_size = 10
-total_pages = len(pivot_df) // page_size + (1 if len(pivot_df) % page_size > 0 else 0)
+gridOptions = gb.build()
 
-
-# Widget to select the current page, placed at the top
-with col1:
-    current_page = st.selectbox('Select a Page', range(total_pages))
-
-# Display the portion of dataframe that corresponds to the current page with custom styling
-start_row = current_page * page_size
-end_row = start_row + page_size
-
-# Custom styling for the dataframe
-styles = [
-    {'selector': 'thead', 'props': 'color: white; background-color: #2a7bbd;'},
-    {'selector': 'tbody tr:nth-child(even)', 'props': 'background-color: #f7f7f7;'},
-    {'selector': 'tbody tr:hover', 'props': 'background-color: #f4f4f8;'}
-]
-
-# Display the styled dataframe within the same column, right below the selectbox
-st.dataframe(pivot_df.iloc[start_row:end_row].style.set_table_styles(styles))
-
+# Display the AgGrid component with the configured options
+AgGrid(pivot_df, gridOptions=gridOptions, update_mode=GridUpdateMode.MODEL_CHANGED, fit_columns_on_grid_load=True)
 
 # Creating the Summary Table where it sorts the SME (On It) column by first getting the total average TimeTo: On It and average TimeTo: Attended and then sorting it by the number of Interactions
 # and then by the highest average survey.

@@ -5,3 +5,5 @@ pydeck
 streamlit
 streamlit_lottie
 pygwalker
+streamlit-aggrid
+plotly
