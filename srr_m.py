@@ -384,13 +384,13 @@ with col5:
 # df_filtered = df.dropna(subset=['Case #', 'Case Reason'])
 
 # Group by "Case Reason" and count "Case #" occurrences
-case_counts = df_filtered.groupby('Case Reason')['Case #'].count().reset_index()
+case_counts = df_filtered.groupby('Case Reason')['Service'].count().reset_index()
 
 # Sort the DataFrame by counts in ascending order
-case_counts_sorted = case_counts.sort_values(by='Case #', ascending=True)
+case_counts_sorted = case_counts.sort_values(by='Service', ascending=True)
 
 # Generate a pie chart
-fig = px.pie(case_counts_sorted, values='Case #', names='Case Reason', title='Distribution of Case Reasons')
+fig = px.pie(case_counts_sorted, values='Service', names='Case Reason', title='Distribution of Case Reasons')
 
 # Show the pie chart in the Streamlit app
 st.plotly_chart(fig)
