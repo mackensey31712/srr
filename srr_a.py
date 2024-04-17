@@ -9,8 +9,56 @@ import json
 from st_aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode
 from st_aggrid.shared import JsCode
 import plotly.express as px
+import hmac
 
 st.set_page_config(page_title="SRR Agent View", page_icon=":mag_right:", layout="wide")
+
+def check_password():
+    """Returns `True` if the user had a correct password."""
+
+    def login_form():
+        """Form with widgets to collect user information"""
+        with st.form("Credentials"):
+            st.text_input("Username", key="username")
+            st.text_input("Password", type="password", key="password")
+            st.form_submit_button("Log in", on_click=password_entered)
+
+    def password_entered():
+        """Checks whether a password entered by the user is correct."""
+        if st.session_state["username"] in st.secrets.get("passwords", {}) \
+                and hmac.compare_digest(
+                    st.session_state["password"],
+                    st.secrets.passwords[st.session_state["username"]]
+                ):
+            st.session_state["password_correct"] = True
+            del st.session_state["password"]  # Don't store the username or password.
+            del st.session_state["username"]
+        else:
+            st.session_state["password_correct"] = False
+
+    # Return True if the username + password is validated.
+    if st.session_state.get("password_correct", False):
+        return True
+
+    # Show inputs for username + password.
+    login_form()
+    if "password_correct" in st.session_state and not st.session_state["password_correct"]:
+        st.stop()  # Stop the script to prevent further execution
+    return False
+
+# Check if the user is logged in
+if not check_password():
+    st.stop()
+else:
+    # Render greeting in sidebar upon successful login
+    st.sidebar.title("Welcome!")
+
+    # Logout button
+    if st.sidebar.button("Logout"):
+        st.session_state["password_correct"] = False  # Set password status to False to force login screen
+        st.experimental_rerun()
+
+
 
 # Create functions for computation
 @st.cache_data(ttl=120, show_spinner=True)
