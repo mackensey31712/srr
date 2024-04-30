@@ -100,7 +100,7 @@ st.sidebar.markdown('# Select a **Filter:**')
 # Sidebar with a multi-select dropdown for 'Service' column filtering
 with st.sidebar:
     all_services_options = ['All'] + list(df['Service'].unique())
-    selected_service = st.multiselect('Service', all_services_options, default='All')
+    selected_service = st.multiselect('Service - (Multi-Select)', all_services_options, default='All')
 
 # Apply filtering
 if 'All' in selected_service:
@@ -148,7 +148,7 @@ else:
 # Sidebar with a multi-select dropdown for 'SME (On It)' column filtering
 with st.sidebar:
     all_sme_options = ['All'] + list(df_filtered['SME (On It)'].unique())
-    selected_sme_on_it = st.multiselect('SME (On It)', all_sme_options, default='All')
+    selected_sme_on_it = st.multiselect('SME (On It) - (Multi-Select)', all_sme_options, default='All')
 
 # # Apply filtering
 # if 'All' not in selected_sme_on_it:
