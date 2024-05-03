@@ -190,7 +190,7 @@ def main():
             
         else:
             # If specific SMEs are selected, filter the dataframe and display the result
-            df_filtered = df[df['SME (On It)'].isin(selected_sme_on_it)]
+            df_filtered = df_filtered[df_filtered['SME (On It)'].isin(selected_sme_on_it)]
             st.sidebar.markdown(
                 "<h3 style='color: red;'>Displaying Selected SMEs</h1>",
                 unsafe_allow_html=True)
