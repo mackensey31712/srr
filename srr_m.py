@@ -283,7 +283,7 @@ filtered_columns = ['Case #', 'Service', 'Inquiry', 'Requestor', 'Creation Times
 # Display the filtered dataframe
 st.title('Data')
 with st.expander('Show Data', expanded=False):
-    st.dataframe(df_filtered[filtered_columns], use_container_width=True)
+    st.dataframe(df_filtered[filtered_columns])
 
 agg_month = df_filtered.groupby('Month').agg({
     'TimeTo: On It Sec': 'mean',
