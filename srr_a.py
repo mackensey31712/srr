@@ -298,7 +298,7 @@ def main():
        'Message Link', 'Message Link 0', 'Message Link 1', 'Message Link 2',
        'Status', 'Case Reason', 'AFI', 'AFI Comment', 'Article#',
        'TimeTo: On It (Raw)', 'TimeTo: Attended (Raw)','Month', 'Day', 'Weekend?',
-       'Date Created', 'Working Hours?', 'Survey', 'Hour_Created']
+       'Date Created', 'Working Hours?', 'Hour_Created']
 
         # Display the filtered dataframe
         st.title('Data')
