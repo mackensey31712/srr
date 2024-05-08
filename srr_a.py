@@ -72,6 +72,7 @@ def main():
             df['TimeTo: On It (Raw)'] = df['TimeTo: On It'].copy()
             df['TimeTo: Attended (Raw)'] = df['TimeTo: Attended'].copy()
             df.drop('Survey', axis=1, inplace=True)
+            df.dropna(subset=['Service'], inplace=True)
             return df
 
         def calculate_metrics(df):
