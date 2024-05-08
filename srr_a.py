@@ -97,7 +97,7 @@ def main():
         # df = load_data(url).copy()
 
         conn = st.connection("gsheets", type=GSheetsConnection)
-        data = conn.read(worksheet="Response and Survey Form")
+        data = conn.read(worksheet="Response and Survey Form", usecols=list(range(27)))
         df = load_data(data).copy()
 
         # Function to load a lottie animation from a URL
