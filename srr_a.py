@@ -263,6 +263,10 @@ def main():
 
         #------------------------
 
+        # Preprocess the DataFrame to remove commas from the "Case #" column
+        df_inqueue['Case #'] = df_inqueue['Case #'].astype(str).str.replace(',', '')
+        df_inprogress['Case #'] = df_inprogress['Case #'].astype(str).str.replace(',', '')
+
         # Display "In Queue" DataFrame with count
         in_queue_count = len(df_inqueue)
 
