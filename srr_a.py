@@ -504,6 +504,7 @@ def main():
         # Auto-update every 5 minutes
         refresh_rate = 120  # 300 seconds = 5 minutes
         time.sleep(refresh_rate)
+        st.cache_data.clear()
         st.rerun()
 
 if __name__ == '__main__':
