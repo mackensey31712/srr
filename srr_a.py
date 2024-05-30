@@ -150,19 +150,9 @@ def main():
             unsafe_allow_html=True
         )
 
-        # # Display lottie animation
-        # st_lottie(lottie_globe, speed=1, reverse=False, loop=True, quality="low", height=200, width=200, key=None)
-
-        
-        col1, col2 = st.columns(2)
-
-        with col1:
         # Display lottie animation
-            st_lottie(lottie_globe, speed=1, reverse=False, loop=True, quality="low", height=200, width=200, key=None)
+        st_lottie(lottie_globe, speed=1, reverse=False, loop=True, quality="low", height=200, width=200, key=None)
 
-        # with col2:
-        #     # Radio buttons for delta selection
-        #     delta_option = st.radio("Select delta calculation:", ('Previous week', 'Previous month'))
 
         # Insert Five9 logo
         five9logo_url = "https://raw.githubusercontent.com/mackensey31712/srr/main/five9log1.png"
@@ -191,14 +181,14 @@ def main():
 
         # Sidebar with a dropdown for 'Month' column filtering
         with st.sidebar:
-        #     selected_month = st.selectbox('Month', ['All'] + list(df_filtered['Month'].unique()))
-            current_month = datetime.now().strftime('%B')
-            selected_month = st.selectbox('Month', ['All'] + list(df_filtered['Month'].unique()), index=(df_filtered['Month'].unique().tolist().index(current_month) + 1) if current_month in df_filtered['Month'].unique() else 0)
+            selected_month = st.selectbox('Month', ['All'] + list(df_filtered['Month'].unique()))
+            # current_month = datetime.now().strftime('%B')
+            # selected_month = st.selectbox('Month', ['All'] + list(df_filtered['Month'].unique()), index=(df_filtered['Month'].unique().tolist().index(current_month) + 1) if current_month in df_filtered['Month'].unique() else 0)
 
-            if selected_month != 'All':
-                df_filtered = df_filtered[df_filtered['Month'] == selected_month]
-            else:
-                df_filtered = df
+            # if selected_month != 'All':
+            #     df_filtered = df_filtered[df_filtered['Month'] == selected_month]
+            # else:
+            #     df_filtered = df
 
         # Apply filtering
         if selected_month != 'All':
@@ -290,37 +280,37 @@ def main():
         overall_avg_attended_hms = seconds_to_hms(overall_avg_attended_sec)
         unique_case_count = calculate_metrics(df_filtered)
 
-        # Calculate deltas
-        if delta_option == 'Previous week':
-            today = datetime.now()
-            start_of_week = today - timedelta(days=today.weekday() + 7)
-            end_of_week = start_of_week + timedelta(days=6)
-            df_previous_week = df[(df['Date Created'] >= start_of_week) & (df['Date Created'] <= end_of_week)]
+        # # Calculate deltas
+        # if delta_option == 'Previous week':
+        #     today = datetime.now()
+        #     start_of_week = today - timedelta(days=today.weekday() + 7)
+        #     end_of_week = start_of_week + timedelta(days=6)
+        #     df_previous_week = df[(df['Date Created'] >= start_of_week) & (df['Date Created'] <= end_of_week)]
 
-            df_previous_week['TimeTo: On It'] = pd.to_timedelta(df_previous_week['TimeTo: On It'], errors='coerce')
-            df_previous_week['TimeTo: Attended'] = pd.to_timedelta(df_previous_week['TimeTo: Attended'], errors='coerce')
+        #     df_previous_week['TimeTo: On It'] = pd.to_timedelta(df_previous_week['TimeTo: On It'], errors='coerce')
+        #     df_previous_week['TimeTo: Attended'] = pd.to_timedelta(df_previous_week['TimeTo: Attended'], errors='coerce')
 
-            prev_week_avg_on_it_sec = df_previous_week['TimeTo: On It'].dt.total_seconds().mean()
-            prev_week_avg_attended_sec = df_previous_week['TimeTo: Attended'].dt.total_seconds().mean()
+        #     prev_week_avg_on_it_sec = df_previous_week['TimeTo: On It'].dt.total_seconds().mean()
+        #     prev_week_avg_attended_sec = df_previous_week['TimeTo: Attended'].dt.total_seconds().mean()
 
-            delta_on_it = overall_avg_on_it_sec - prev_week_avg_on_it_sec if not np.isnan(prev_week_avg_on_it_sec) else 0
-            delta_attended = overall_avg_attended_sec - prev_week_avg_attended_sec if not np.isnan(prev_week_avg_attended_sec) else 0
+        #     delta_on_it = overall_avg_on_it_sec - prev_week_avg_on_it_sec if not np.isnan(prev_week_avg_on_it_sec) else 0
+        #     delta_attended = overall_avg_attended_sec - prev_week_avg_attended_sec if not np.isnan(prev_week_avg_attended_sec) else 0
 
-        else:
-            prev_month = (datetime.now().replace(day=1) - timedelta(days=1)).strftime('%B')
-            df_previous_month = df[df['Month'] == prev_month]
+        # else:
+        #     prev_month = (datetime.now().replace(day=1) - timedelta(days=1)).strftime('%B')
+        #     df_previous_month = df[df['Month'] == prev_month]
 
-            df_previous_month['TimeTo: On It'] = pd.to_timedelta(df_previous_month['TimeTo: On It'], errors='coerce')
-            df_previous_month['TimeTo: Attended'] = pd.to_timedelta(df_previous_month['TimeTo: Attended'], errors='coerce')
+        #     df_previous_month['TimeTo: On It'] = pd.to_timedelta(df_previous_month['TimeTo: On It'], errors='coerce')
+        #     df_previous_month['TimeTo: Attended'] = pd.to_timedelta(df_previous_month['TimeTo: Attended'], errors='coerce')
 
-            prev_month_avg_on_it_sec = df_previous_month['TimeTo: On It'].dt.total_seconds().mean()
-            prev_month_avg_attended_sec = df_previous_month['TimeTo: Attended'].dt.total_seconds().mean()
+        #     prev_month_avg_on_it_sec = df_previous_month['TimeTo: On It'].dt.total_seconds().mean()
+        #     prev_month_avg_attended_sec = df_previous_month['TimeTo: Attended'].dt.total_seconds().mean()
 
-            delta_on_it = overall_avg_on_it_sec - prev_month_avg_on_it_sec if not np.isnan(prev_month_avg_on_it_sec) else 0
-            delta_attended = overall_avg_attended_sec - prev_month_avg_attended_sec if not np.isnan(prev_month_avg_attended_sec) else 0
+        #     delta_on_it = overall_avg_on_it_sec - prev_month_avg_on_it_sec if not np.isnan(prev_month_avg_on_it_sec) else 0
+        #     delta_attended = overall_avg_attended_sec - prev_month_avg_attended_sec if not np.isnan(prev_month_avg_attended_sec) else 0
 
-        delta_on_it_hms = seconds_to_hms(delta_on_it)
-        delta_attended_hms = seconds_to_hms(delta_attended)
+        # delta_on_it_hms = seconds_to_hms(delta_on_it)
+        # delta_attended_hms = seconds_to_hms(delta_attended)
 
         # Display metrics
         col1, col3,col5 = st.columns(3)
