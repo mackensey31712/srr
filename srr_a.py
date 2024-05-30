@@ -160,9 +160,9 @@ def main():
         # Display lottie animation
             st_lottie(lottie_globe, speed=1, reverse=False, loop=True, quality="low", height=200, width=200, key=None)
 
-        with col2:
-            # Radio buttons for delta selection
-            delta_option = st.radio("Select delta calculation:", ('Previous week', 'Previous month'))
+        # with col2:
+        #     # Radio buttons for delta selection
+        #     delta_option = st.radio("Select delta calculation:", ('Previous week', 'Previous month'))
 
         # Insert Five9 logo
         five9logo_url = "https://raw.githubusercontent.com/mackensey31712/srr/main/five9log1.png"
@@ -327,9 +327,9 @@ def main():
         with col1:
             st.metric(label="Interactions", value=unique_case_count)
         with col3:
-            st.metric("Overall Avg. TimeTo: On It", overall_avg_on_it_hms, delta=delta_on_it_hms, delta_color="inverse")
+            st.metric("Overall Avg. TimeTo: On It", overall_avg_on_it_hms)
         with col5:
-            st.metric("Overall Avg. TimeTo: Attended", overall_avg_attended_hms, delta=delta_attended_hms, delta_color="inverse")
+            st.metric("Overall Avg. TimeTo: Attended", overall_avg_attended_hms)
 
         #------------------------
 
