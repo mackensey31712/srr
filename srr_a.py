@@ -327,9 +327,9 @@ def main():
         with col1:
             st.metric(label="Interactions", value=unique_case_count)
         with col3:
-            st.metric("Overall Avg. TimeTo: On It", overall_avg_on_it_hms, delta=delta_on_it_hms)
+            st.metric("Overall Avg. TimeTo: On It", overall_avg_on_it_hms, delta=delta_on_it_hms, delta_color="inverse")
         with col5:
-            st.metric("Overall Avg. TimeTo: Attended", overall_avg_attended_hms, delta=delta_attended_hms)
+            st.metric("Overall Avg. TimeTo: Attended", overall_avg_attended_hms, delta=delta_attended_hms, delta_color="inverse")
 
         #------------------------
 
