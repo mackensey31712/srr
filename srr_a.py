@@ -16,6 +16,15 @@ import pytz
 
 st.set_page_config(page_title="SRR Agent View", page_icon=":mag_right:", layout="wide")
 
+hide_streamlit_style = """
+        <style>
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        header {visibility: hidden;}
+        </style>
+        """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
 #  Access usernames and passwords from secrets.toml
 credentials = st.secrets["credentials"]
 
@@ -124,6 +133,20 @@ def main():
         lottie_queuing = load_lottieurl("https://lottie.host/910429d2-a0a4-4668-a4d4-ee831f9ccecd/yOKbdL2Yze.json")
         lottie_inprogress = load_lottieurl("https://lottie.host/c5c6caea-922b-4b4e-b34a-41ecaafe2a13/mphMkSfOkR.json")
         lottie_chill = load_lottieurl("https://lottie.host/2acdde4d-32d7-44a8-aa64-03e1aa191466/8EG5a8ToOQ.json")
+
+        # Define the color mapping for Service values
+        color_map = {
+            "VCC": "#0068C9",
+            "AMC": "LightSkyBlue",
+            "Network": "Red",
+            "WFO": "Orange",
+            "CRM": "#29B09D"
+        }
+
+        # Function to get color for a service
+        def get_service_color(service):
+            return color_map.get(service, "Gray")  # Default to gray if service not in map
+
 
         col1, col2 = st.columns([3, .350])
         with col2:
@@ -362,32 +385,98 @@ def main():
         service_counts = df_filtered['Service'].value_counts().reset_index()
         service_counts.columns = ['Service', 'Count']
 
-        chart3 = px.bar(service_counts, x='Service', y='Count', color='Service', text='Count', title='Interaction Count')
+        # chart3 = px.bar(service_counts, x='Service', y='Count', color='Service', text='Count', title='Interaction Count')
+        # chart3.update_traces(textposition='outside')
+        # chart3.update_layout(uniformtext_minsize=8, uniformtext_mode='hide', xaxis_tickangle=-0)
+        # chart3.update_layout(width=800, height=600)
+
+        chart3 = px.bar(service_counts, x='Service', y='Count', color='Service', text='Count', 
+                        title='Interaction Count',
+                        color_discrete_map=color_map)
         chart3.update_traces(textposition='outside')
         chart3.update_layout(uniformtext_minsize=8, uniformtext_mode='hide', xaxis_tickangle=-0)
         chart3.update_layout(width=800, height=600)
 
+
         with col1:
             st.write(chart3)
 
-        chart4 = alt.Chart(df_filtered[df_filtered['SME'].notna()]).mark_bar().encode(
-            y=alt.Y('SME:N', sort='-x'),
-            x=alt.X('count()', title='Unique Case Count'),
-            tooltip=['SME', 'count()']
-        ).properties(
-            title='Interactions Handled by SME Attended',
+        # chart4_data = df_filtered[df_filtered['SME'].notna()].groupby(['SME', 'Service']).size().reset_index(name='count')
+
+        # chart4 = alt.Chart(chart4_data).mark_bar().encode(
+        #     y=alt.Y('SME:N', sort='-x'),
+        #     x=alt.X('count:Q', title='Interaction Count'),
+        #     color=alt.Color('Service:N', scale=alt.Scale(scheme='category20')),
+        #     tooltip=['SME', 'Service', 'count']
+        # ).properties(
+        #     title='Interactions Handled by SME Attended',
+        #     width=700,
+        #     height=600
+        # )
+
+        # # Update the data for the expandable section
+        # data_chart4 = chart4_data.pivot_table(index='SME', columns='Service', values='count', fill_value=0).reset_index()
+        # data_chart4['Total'] = data_chart4.sum(axis=1)
+        # data_chart4 = data_chart4.sort_values('Total', ascending=False).reset_index(drop=True)
+        # data_chart4.index = data_chart4.index + 1
+
+        # # data_chart4 = df_filtered[df_filtered['SME'].notna()]['SME'].value_counts().reset_index()
+        # # data_chart4.index = data_chart4.index + 1
+        # # data_chart4.columns = ['SME', 'Unique Case Count']
+
+        # with col5:
+        #     st.write(chart4)
+        #     with st.expander("Show Data", expanded=False):
+        #         st.dataframe(data_chart4, use_container_width=True)
+
+
+
+        # Prepare data for the chart
+        chart4_data = df_filtered[df_filtered['SME'].notna()].groupby(['SME', 'Service']).size().reset_index(name='count')
+
+        # Sum counts per SME and sort in descending order
+        sme_order = chart4_data.groupby('SME')['count'].sum().sort_values(ascending=False).index
+
+        # # Create the Plotly bar chart
+        # fig = px.bar(chart4_data, x='count', y='SME', color='Service', 
+        #              title='Interactions Handled by SME Attended', 
+        #              orientation='h',  # Horizontal bar chart
+        #              category_orders={'SME': list(sme_order)},  # Sort SME in descending order
+        #              color_discrete_sequence=px.colors.qualitative.Plotly)  # Using Plotly's qualitative color scale
+
+        # fig.update_layout(
+        #     xaxis_title='Interaction Count',
+        #     yaxis_title='SME',
+        #     width=700,
+        #     height=600
+        # )
+
+
+        fig = px.bar(chart4_data, x='count', y='SME', color='Service', 
+                    title='Interactions Handled by SME Attended', 
+                    orientation='h',
+                    category_orders={'SME': list(sme_order)},
+                    color_discrete_map=color_map)
+
+        fig.update_layout(
+            xaxis_title='Interaction Count',
+            yaxis_title='SME',
             width=700,
             height=600
         )
 
-        data_chart4 = df_filtered[df_filtered['SME'].notna()]['SME'].value_counts().reset_index()
+        # Prepare data for table
+        data_chart4 = chart4_data.pivot_table(index='SME', columns='Service', values='count', fill_value=0).reset_index()
+        data_chart4['Total'] = data_chart4.sum(axis=1)
+        data_chart4 = data_chart4.sort_values('Total', ascending=False).reset_index(drop=True)
         data_chart4.index = data_chart4.index + 1
-        data_chart4.columns = ['SME', 'Unique Case Count']
 
+        # Display the chart in your Streamlit app
         with col5:
-            st.write(chart4)
+            st.plotly_chart(fig, use_container_width=True)
             with st.expander("Show Data", expanded=False):
-                st.dataframe(data_chart4, use_container_width=True)
+                st.dataframe(data_chart4, use_container_width=True)     
+        
 
         st.subheader('Interaction Count by Requestor')
 
