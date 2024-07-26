@@ -78,6 +78,7 @@ def main():
         # Set timezone to America/Los_Angeles
         timezone = pytz.timezone('America/Los_Angeles')
 
+
         @st.cache_data(ttl=120, show_spinner=True)
         def load_data(data):
             df = data.copy()  # Make a copy to avoid modifying the original DataFrame
@@ -87,6 +88,8 @@ def main():
             df['TimeTo: Attended (Raw)'] = df['TimeTo: Attended'].copy()
             df.drop('Survey', axis=1, inplace=True)
             df.dropna(subset=['Service'], inplace=True)
+            df.rename(columns={'Case #': 'Case no'}, inplace=True)
+            # df = make_arrow_compatible(df) # Make data Arrow-compatible
             return df
 
         def calculate_metrics(df):
@@ -209,9 +212,9 @@ def main():
             st.sidebar.markdown("<h3 style='color: red;'>Displaying Selected SMEs</h1>", unsafe_allow_html=True)
 
         df_inqueue = df_filtered[df_filtered['Status'] == 'In Queue']
-        df_inqueue = df_inqueue[['Case #', 'Requestor', 'Service', 'Creation Timestamp', 'Message Link']]
+        df_inqueue = df_inqueue[['Case no', 'Requestor', 'Service', 'Creation Timestamp', 'Message Link']]
         df_inprogress = df_filtered[df_filtered['Status'] == 'In Progress']
-        df_inprogress = df_inprogress[['Case #', 'Requestor', 'Service', 'Creation Timestamp', 'SME (On It)', 'TimeTo: On It', 'Message Link']]
+        df_inprogress = df_inprogress[['Case no', 'Requestor', 'Service', 'Creation Timestamp', 'SME (On It)', 'TimeTo: On It', 'Message Link']]
 
         df_filtered['TimeTo: On It Sec'] = df_filtered['TimeTo: On It'].apply(convert_to_seconds)
         df_filtered['TimeTo: Attended Sec'] = df_filtered['TimeTo: Attended'].apply(convert_to_seconds)
@@ -234,8 +237,8 @@ def main():
         with col5:
             st.metric("Overall Avg. TimeTo: Attended", overall_avg_attended_hms)
 
-        df_inqueue['Case #'] = df_inqueue['Case #'].astype(str).str.replace(',', '')
-        df_inprogress['Case #'] = df_inprogress['Case #'].astype(str).str.replace(',', '')
+        df_inqueue['Case no'] = df_inqueue['Case no'].astype(str).str.replace(',', '')
+        df_inprogress['Case no'] = df_inprogress['Case no'].astype(str).str.replace(',', '')
 
         in_queue_count = len(df_inqueue)
 
@@ -278,7 +281,7 @@ def main():
                 df_inprogress_display.index = df_inprogress_display.index + 1
                 st.dataframe(df_inprogress_display, use_container_width=True)
 
-        filtered_columns = ['Case #', 'Service', 'Inquiry', 'Requestor', 'Creation Timestamp',
+        filtered_columns = ['Case no', 'Service', 'Inquiry', 'Requestor', 'Creation Timestamp',
             'SME (On It)', 'On It Time', 'Attendee', 'Attended Timestamp',
             'Message Link', 'Message Link 0', 'Message Link 1', 'Message Link 2',
             'Status', 'Case Reason', 'AFI', 'AFI Comment', 'Article#',
