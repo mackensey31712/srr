@@ -2,7 +2,7 @@ altair
 numpy==1.24.2
 pandas==1.5.3
 pydeck
-streamlit
+streamlit==1.36.0
 streamlit_lottie
 pygwalker
 streamlit-aggrid
